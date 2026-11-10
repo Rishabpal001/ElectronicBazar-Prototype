@@ -41,17 +41,6 @@ class ErrorBoundary extends React.Component<
 }
 
 async function boot() {
-  const missing: string[] = [];
-  if (!import.meta.env.VITE_SUPABASE_URL) missing.push('VITE_SUPABASE_URL');
-  if (!import.meta.env.VITE_SUPABASE_ANON_KEY) missing.push('VITE_SUPABASE_ANON_KEY');
-  if (missing.length) {
-    showFatal(
-      'Config missing',
-      `Ye GitHub Variables set nahi hain: ${missing.join(', ')}\n\nRepo -> Settings -> Secrets and variables -> Actions -> Variables me add karo, phir Actions me deploy dobara run karo.`,
-    );
-    return;
-  }
-
   try {
     const [{ BrowserRouter }, { default: App }, { AuthProvider }, { CartProvider }, { WishlistProvider }] =
       await Promise.all([

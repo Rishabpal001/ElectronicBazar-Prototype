@@ -72,7 +72,7 @@ function loadRazorpayScript(): Promise<void> {
 }
 
 async function callFn<T>(name: string, body: unknown): Promise<T> {
-  const { data, error } = await supabase.functions.invoke(name, { body });
+  const { data, error } = await supabase.functions.invoke(name, { body: body as Record<string, unknown> });
   if (error) {
     // Edge Function errors carry a JSON body with our message
     let msg = error.message;

@@ -75,6 +75,6 @@ export type Order = {
   payment_status: 'pending' | 'paid' | 'failed' | 'refunded';
   subtotal_minor: number; shipping_minor: number; cod_fee_minor: number; total_minor: number; currency: string;
   address: Omit<AddressInput, 'label'>; customer_note: string | null; courier: string | null; tracking_no: string | null;
-  razorpay_order_id: string | null; created_at: string; paid_at: string | null;
+  razorpay_order_id: string | null; razorpay_payment_id?: string | null; created_at: string; paid_at: string | null;
   order_items?: OrderItem[]; order_events?: OrderEvent[];
 };

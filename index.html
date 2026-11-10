@@ -18,9 +18,37 @@
         if (dark) document.documentElement.classList.add('dark');
       } catch (e) {}
     </script>
+    <script>
+      // Safety net: if the app never starts, show why instead of a blank white page.
+      (function () {
+        function show(msg) {
+          var r = document.getElementById('root');
+          if (!r || r.childNodes.length) return;
+          r.innerHTML = '<div style="font-family:system-ui,sans-serif;max-width:640px;margin:40px auto;padding:20px;border:1px solid #fca5a5;background:#fef2f2;border-radius:12px;color:#7f1d1d"><h2 style="margin:0 0 8px">App start nahi hui</h2><pre style="white-space:pre-wrap;word-break:break-word;font-size:13px;margin:0"></pre></div>';
+          r.getElementsByTagName('pre')[0].textContent = msg;
+        }
+        window.addEventListener('error', function (e) {
+          var t = e.target;
+          setTimeout(function () {
+            if (t && t.tagName === 'SCRIPT') {
+              show('App script load nahi hui: ' + t.src + '\n\nKaaran: GitHub Settings -> Pages -> Source "GitHub Actions" nahi hai, ya Actions ka deploy fail hua. Source ko GitHub Actions karo aur Actions me "Deploy to GitHub Pages" run karo.');
+            } else {
+              show('JS error: ' + (e.message || 'unknown') + (e.filename ? '\n' + e.filename : ''));
+            }
+          }, 300);
+        }, true);
+        window.addEventListener('unhandledrejection', function (e) { setTimeout(function () { show('Promise error: ' + (e.reason && e.reason.message || e.reason)); }, 300); });
+        window.addEventListener('load', function () {
+          setTimeout(function () {
+            show('App JavaScript load nahi hui.\n\nSabse common kaaran: GitHub Settings -> Pages -> Source "GitHub Actions" nahi hai (ya Actions ka deploy fail hua).\nPage ka script ' + (document.querySelector('script[type=module]') || {}).src + ' 404 de raha hoga.');
+          }, 4000);
+        });
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
+    <noscript>Is site ko chalane ke liye JavaScript ON karo.</noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

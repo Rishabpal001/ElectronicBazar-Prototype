@@ -114,7 +114,7 @@ export async function fetchCart(userId: string): Promise<CartRef[]> {
 export async function insertCartItem(userId: string, ref: Omit<CartRef, 'id'>): Promise<CartRef> {
   const cartId = await ensureCartId(userId);
   const row = check(await supabase.from('cart_items').insert({ cart_id: cartId, product_id: ref.product_id, variant_id: ref.variant_id, quantity: ref.quantity, customization: ref.customization }).select('id').single());
-  return { ...ref, id: (row as { id: string }).id };
+  return { ...ref, id: (row as unknown as { id: string }).id };
 }
 
 export async function updateCartItemQty(id: string, quantity: number): Promise<void> {
