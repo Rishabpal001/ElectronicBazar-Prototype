@@ -1,0 +1,88 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Electronic Bazar theme. Dark navy is the default; light mode is the same palette on white. */
+:root {
+  --bg: 242 246 253;
+  --surface: 255 255 255;
+  --ink: 15 23 42;
+  --muted: 100 116 139;
+  --line: 218 226 240;
+  --accent: 37 99 235;
+  --sun: 250 204 21;
+  --navy: 6 12 36;
+}
+
+.dark {
+  --bg: 6 12 36;
+  --surface: 14 24 58;
+  --ink: 238 243 255;
+  --muted: 148 163 200;
+  --line: 34 50 96;
+  --accent: 59 130 246;
+  --sun: 250 204 21;
+  --navy: 3 7 22;
+}
+
+/* Header and footer stay navy in light mode too, like the design. */
+.force-dark {
+  --bg: 6 12 36; --surface: 14 24 58; --ink: 238 243 255; --muted: 148 163 200; --line: 34 50 96; --accent: 59 130 246; --navy: 3 7 22;
+}
+
+body {
+  @apply bg-bg text-ink font-sans antialiased;
+  background-image:
+    radial-gradient(ellipse at 10% 0%, rgba(37, 99, 235, 0.10), transparent 40%),
+    radial-gradient(ellipse at 95% 30%, rgba(124, 58, 237, 0.08), transparent 40%);
+  background-attachment: fixed;
+}
+.dark body {
+  background-image:
+    radial-gradient(ellipse at 10% 0%, rgba(37, 99, 235, 0.22), transparent 45%),
+    radial-gradient(ellipse at 95% 30%, rgba(124, 58, 237, 0.16), transparent 45%);
+}
+
+h1, h2, h3 { @apply font-display; }
+::selection { background: rgba(59, 130, 246, 0.35); color: inherit; }
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition duration-200 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-primary {
+    @apply btn bg-accent text-white hover:-translate-y-0.5 hover:brightness-110;
+    box-shadow: 0 6px 18px rgba(37, 99, 235, 0.35);
+  }
+  .btn-sun {
+    @apply btn bg-sun text-slate-900 hover:-translate-y-0.5 hover:brightness-105;
+    box-shadow: 0 6px 18px rgba(250, 204, 21, 0.3);
+  }
+  .btn-ghost {
+    @apply btn border border-line bg-surface text-ink hover:border-accent hover:text-accent;
+  }
+  .input {
+    @apply w-full rounded-2xl border border-line bg-surface px-4 py-3 text-sm text-ink outline-none transition placeholder:text-muted focus:border-accent focus:ring-2 focus:ring-accent/25;
+  }
+  .card {
+    @apply rounded-3xl border border-line bg-surface shadow-sm transition duration-300;
+  }
+  .label { @apply mb-1 block text-sm font-semibold text-ink; }
+  .err { @apply mt-1 text-sm text-red-600 dark:text-red-400; }
+  .text-grad { @apply bg-gradient-to-r from-sun via-amber-300 to-sun bg-clip-text text-transparent; }
+  .chip { @apply inline-flex items-center gap-2 rounded-full border border-line bg-surface px-4 py-2 text-sm font-semibold transition hover:border-accent hover:text-accent; }
+}
+
+@keyframes floaty { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+.floaty { animation: floaty 5s ease-in-out infinite; }
+@keyframes spin-slow { to { transform: rotate(360deg); } }
+.spin-slow { animation: spin-slow 40s linear infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
